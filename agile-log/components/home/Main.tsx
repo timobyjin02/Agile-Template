@@ -18,9 +18,7 @@ function Main() {
         </p>
         <div className="flex justify-center">
           <Link href="/start" legacyBehavior>
-            <a className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Get Start!
-            </a>
+            <a className="btn-project">Get Start!</a>
           </Link>
         </div>
       </div>
