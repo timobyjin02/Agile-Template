@@ -1,14 +1,15 @@
 import Layout from "@/components/Layout";
-import { TOKEN, DATABASE_ID } from "../config";
+import { TOKEN, DATABASE_ID, TIL_DATABASE_ID } from "../config";
 import ProjectItems from "@/components/sprint/ProjectItems";
 import styled from "@emotion/styled";
 import TitleHeader from "@/components/title/TitleHeader";
 import Profile from "@/components/side/Profile";
 import Service from "@/components/side/Service";
 import Contact from "@/components/side/Contact";
+import TilTable from "@/components/til/TilITable";
 
-function Start({ projects }: any) {
-  // console.log(projects);
+function Start({ projects, til }: any) {
+  // console.log(til);
   return (
     <Layout>
       <Title>공부한 것을 기록하는 공간</Title>
@@ -21,6 +22,9 @@ function Start({ projects }: any) {
             ))}
           </Grid>
           <TitleHeader>📝 TIL (Today I Learned)</TitleHeader>
+          <div>
+            <TilTable til={til} />
+          </div>
         </NotionDataContainer>
         <SideContainer>
           <Profile />
@@ -50,11 +54,30 @@ export async function getStaticProps() {
     options
   );
 
+  const optionss = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "Notion-Version": "2022-06-28",
+      "content-type": "application/json",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    body: JSON.stringify({ page_size: 100 }),
+  };
+
+  const ress = await fetch(
+    `https://api.notion.com/v1/databases/${TIL_DATABASE_ID}/query`,
+    optionss
+  );
+
+  const til = await ress.json();
+  console.log(til);
+
   const projects = await res.json();
   // console.log(projects);
 
   return {
-    props: { projects }, // will be passed to the page component as props
+    props: { projects, til }, // will be passed to the page component as props
   };
 }
 
