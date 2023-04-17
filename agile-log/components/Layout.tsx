@@ -3,13 +3,14 @@ import Footer from "./Footer";
 
 interface childrenProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-function Layout({ children }: childrenProps) {
+function Layout({ children, className }: childrenProps) {
   return (
     <div className="bg-primary">
       <Header />
-      <div>{children}</div>
+      <div className={`container mx-auto ${className}`}>{children}</div>
       <Footer />
     </div>
   );
